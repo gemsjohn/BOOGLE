@@ -21,10 +21,8 @@ const typeDefs = gql`
   }
 
   type Auth {
-    token: String
-    username: String
-    email: String
-    password: String
+    token: ID!
+    user: User
   }
 
   type Query {
@@ -52,7 +50,6 @@ const typeDefs = gql`
     addUser(username: String, email: String, password: String): Auth
     saveBook(bookId: ID, content: BookContent): User
   }
-
   
 `;
 

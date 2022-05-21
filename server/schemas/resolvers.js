@@ -1,5 +1,6 @@
 const { AuthenticationError } = require('apollo-server-express');
 const { User } = require("../models");
+const bookSchema = require('../models/Book');
 
 const resolvers = {
     Query: {
@@ -35,8 +36,7 @@ const resolvers = {
       addUser: async (parent, args) => {
         const user = await User.create(args);
         return user;
-      } 
-
+      }
     }
   };
   
