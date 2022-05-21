@@ -17,12 +17,43 @@ const typeDefs = gql`
     username: String
     email: String
     bookCounter: Int
-    savedBooks: Book!
+    savedBooks: [Book]
+  }
+
+  type Auth {
+    token: String
+    username: String
+    email: String
+    password: String
   }
 
   type Query {
     me(username: String): [User]
   }
+
+  input BookContent {
+    authors: String
+    description: String
+    title: String
+    media: [MediaDetails]
+  }
+
+  input MediaDetails {
+    format: MediaFormat!
+    link: String!
+  }
+
+  enum MediaFormat {
+    IMAGE
+  }
+
+  type Mutation {
+    login(email: String, password: String): Auth
+    addUser(username: String, email: String, password: String): Auth
+    saveBook(bookId: ID, content: BookContent): User
+  }
+
+  
 `;
 
 // export the typeDefs
