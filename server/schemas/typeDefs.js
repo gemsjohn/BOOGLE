@@ -28,7 +28,7 @@ const typeDefs = gql`
   }
 
   type Query {
-    me(username: String): [User]
+    me(username: String): User
   }
 
   input BookContent {
