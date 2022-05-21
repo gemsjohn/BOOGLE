@@ -13,11 +13,11 @@ const resolvers = {
           return userData;
         }
         throw new AuthenticationError('Not logged in');
-      },
-      user: async (parent, {username}) => {
-        const params = username ? { username } : {}
-        return User.findOne({ username })
       }
+      // user: async (parent, {username}) => {
+      //   const params = username ? { username } : {}
+      //   return User.findOne({ username })
+      // }
     },
     Mutation: {
       login: async (parent, { email, password }) => {
@@ -40,6 +40,21 @@ const resolvers = {
         const user = await User.create(args);
         const token = signToken(user);
         return { token, user };
+      },
+      saveBook: async (parent, args, context) => {
+        if (context.user) {
+          const book = await Book.findOne({ ...args, username: context.user.username });
+
+          await User.findByIdAndUpdate(
+            { _id: context.user._id},
+            { $push: { books: book._id }},
+            { new: true }
+          );
+
+          return book;
+        }
+
+        throw new AuthenticationError('You need to be logged in!');
       }
     }
   };
