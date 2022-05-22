@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client';
 import { GET_ME } from '../utils/queries';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Jumbotron, Container, CardColumns, Card, Button } from 'react-bootstrap';
 
 import { getMe, deleteBook } from '../utils/API';
@@ -8,12 +8,12 @@ import Auth from '../utils/auth';
 import { removeBookId } from '../utils/localStorage';
 
 const SavedBooks = () => {
-  const [userData, setUserData] = useState({});
-
-  const userDataLength = Object.keys(userData).length;
+  const [ setUserData] = useState({});
 
   // use useQuery hook to make query request
-  const { loading, data } = useQuery(GET_ME);
+  const { userData } = useQuery(GET_ME);
+
+  const userDataLength = Object.keys(userData).length;
 
   useQuery(() => {
     const getUserData = async () => {
