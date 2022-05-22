@@ -5,6 +5,9 @@ import { setContext } from '@apollo/client/link/context';
 import SearchBooks from './pages/SearchBooks';
 import SavedBooks from './pages/SavedBooks';
 import Navbar from './components/Navbar';
+import { useMutation } from '@apollo/client';
+import { GET_ME } from './utils/queries';
+import { SAVE_BOOK } from './utils/mutations';
 
 const httpLink = createHttpLink({
   uri: '/graphql',
@@ -25,9 +28,21 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-// const client = new ApolloClient({
-//   link: httpLink,
-//   cache: new InMemoryCache(),
+// const [saveBook, { error }] = useMutation(SAVE_BOOK, {
+//   update(cache, { data: { saveBook } }) {
+    
+//       // could potentially not exist yet, so wrap in a try/catch
+//     try {
+//       // update me array's cache
+//       const { me } = cache.readQuery({ query: GET_ME });
+//       cache.writeQuery({
+//         query: GET_ME,
+//         data: { me: { ...me, books: [...me.books, saveBook] } },
+//       });
+//     } catch (e) {
+//       console.warn("First thought insertion by user!")
+//     }
+//   }
 // });
 
 function App() {

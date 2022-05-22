@@ -32,11 +32,11 @@ export const SAVE_BOOK = gql`
             email
             bookCounter
             savedBooks {
-            authors
-            description
-            title
-            image
-            link
+                authors
+                description
+                title
+                image
+                link
             }
         }
     }
