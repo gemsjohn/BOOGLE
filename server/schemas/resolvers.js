@@ -13,19 +13,6 @@ const resolvers = {
           return userData;
         }
         throw new AuthenticationError('Not logged in');
-      },
-      users: async () => {
-        return User.find()
-          .select('-__v -password')
-          .populate('savedBooks')
-      },
-      user: async (parent, { username }) => {
-        return User.findOne({ username })
-          .select('-__v -password')
-          .populate('savedBooks')
-      },
-      book: async (parent, { bookId }) => {
-        return Book.findOne({ bookId });
       }
     },
 
@@ -51,15 +38,11 @@ const resolvers = {
         const token = signToken(user);
         return { token, user };
       },
-      saveBook: async (parent, { bookId, title, description }, context) => {
+      saveBook: async (parent, { bookId }, context) => {
         if (context.user) {
           const updatedUser = await User.findOneAndUpdate(
             { _id: context.user._id },
-            { $addToSet: { savedBooks: { 
-              bookId: bookId,
-              title: title,
-              description: description
-            } } },
+            { $addToSet: { savedBooks: { bookId: bookId } } },
             { new: true }
           )
   

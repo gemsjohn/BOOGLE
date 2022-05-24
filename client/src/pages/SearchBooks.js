@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Jumbotron, Container, Col, Form, Button, Card, CardColumns } from 'react-bootstrap';
 import { useMutation } from '@apollo/client';
-import { useQuery } from '@apollo/client';
 import { SAVE_BOOK } from '../utils/mutations';
-import { GET_ME, QUERY_BOOKS } from '../utils/queries';
 import Auth from '../utils/auth';
-import { saveBook, searchGoogleBooks } from '../utils/API';
+import { searchGoogleBooks } from '../utils/API';
 import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
-import SavedBooks from './SavedBooks';
 
 const SearchBooks = () => {
   // create state for holding returned google api data
@@ -74,7 +71,7 @@ const SearchBooks = () => {
     try {      
       const { data } = await saveBook({
         variables: { savedBooks: { 
-          bookId: bookToSave.bookId,
+          bookId: bookId,
           title: bookToSave.title,
           description: bookToSave.description
         } }
