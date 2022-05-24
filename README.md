@@ -22,4 +22,11 @@ The project allowed for me to explore Apollo Server to use GraphQL queries and m
 - Ability to remove books from your list
 
 ## Images
+### Home Page
+![Example Image](https://github.com/gemsjohn/BOOGLE/blob/main/assets/home.png)
 
+### Search Page (Logged in)
+![Example Image](https://github.com/gemsjohn/BOOGLE/blob/main/assets/search.png)
+
+### Saved Page (Logged in)
+![Example Image](https://github.com/gemsjohn/BOOGLE/blob/main/assets/saved.png)
