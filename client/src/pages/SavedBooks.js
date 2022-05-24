@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Jumbotron, Container, CardColumns, Card, Button } from 'react-bootstrap';
-import { useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { GET_ME } from '../utils/queries';
 import { deleteBook } from '../utils/API';
 import Auth from '../utils/auth';
 import { getSavedBookIds, removeBookId } from '../utils/localStorage';
+import { REMOVE_BOOK } from '../utils/mutations';
 
 const SavedBooks = () => {
   // const [setUserData] = useState({});
@@ -18,11 +19,14 @@ const SavedBooks = () => {
 
   const { data: userData } = useQuery(GET_ME);
   const user = userData?.me || {};
+  console.log(user);
 
   const result1 = user.savedBooks?.length;
   console.log(result1);
 
   const userDataLength = result1;
+
+  const [removeBook] = useMutation(REMOVE_BOOK);
 
   // create function that accepts the book's mongo _id value as param and deletes the book from the database
   const handleDeleteBook = async (bookId) => {
@@ -33,12 +37,10 @@ const SavedBooks = () => {
     }
 
     try {
-      const response = await deleteBook(bookId, token);
-
-      if (!response.ok) {
-        throw new Error('something went wrong!');
-      }
-
+      const { data } = await removeBook({
+        variables: { bookId: bookId }
+      });
+      console.log(data);
       // upon success, remove book's id from localStorage
       removeBookId(bookId);
     } catch (err) {
@@ -60,12 +62,12 @@ const SavedBooks = () => {
       </Jumbotron>
       <Container>
         <h2>
-          {userData.savedBooks?.length
-            ? `Viewing ${userData.savedBooks.length} saved ${userData.savedBooks?.length === 1 ? 'book' : 'books'}:`
+          {user.savedBooks?.length
+            ? `Viewing ${user.savedBooks.length} saved ${user.savedBooks?.length === 1 ? 'book' : 'books'}:`
             : 'You have no saved books!'}
         </h2>
         <CardColumns>
-          {userData.savedBooks?.map((book) => {
+          {user.savedBooks?.map((book) => {
             return (
               <Card key={book.bookId} border='dark'>
                 {book.image ? <Card.Img src={book.image} alt={`The cover for ${book.title}`} variant='top' /> : null}
