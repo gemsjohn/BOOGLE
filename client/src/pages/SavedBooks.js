@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Jumbotron, Container, CardColumns, Card, Button } from 'react-bootstrap';
 import { useMutation, useQuery } from '@apollo/client';
 import { GET_ME } from '../utils/queries';
-import { deleteBook } from '../utils/API';
 import Auth from '../utils/auth';
 import { getSavedBookIds, removeBookId } from '../utils/localStorage';
 import { REMOVE_BOOK } from '../utils/mutations';
@@ -10,12 +9,6 @@ import { REMOVE_BOOK } from '../utils/mutations';
 const SavedBooks = () => {
   // const [setUserData] = useState({});
   const [savedBookIds, setSavedBookIds] = useState(getSavedBookIds());
-  // // const { username: userParam } = useParams();
-  
-  // // console.log(user.savedBooks);
-  // console.log(user.savedBooks);
-
-  // const userDataLength = user.bookCounter;
 
   const { data: userData } = useQuery(GET_ME);
   const user = userData?.me || {};
